@@ -6,7 +6,7 @@
 /*   By: chle-van <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/08 07:08:26 by chle-van          #+#    #+#             */
-/*   Updated: 2017/09/03 17:26:55 by chle-van         ###   ########.fr       */
+/*   Updated: 2017/09/04 14:45:58 by chle-van         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,16 +76,16 @@ size_t		ft_getarg(char **s, va_list args)
 	type.mod = 3;
 	type.padflags = ft_padflags(s);
 	ft_prec(s, &type);
-	while (ft_strchr("hl", **s) && type.mod < 5 && type.mod > 0)
+	while (ft_strchr("hl", **s) && type.mod < 6 && type.mod > 0)
 		type.mod = (*((*s)++) == 'l') ? (++type.mod) : (--type.mod);
-	if (**s && ft_strchr("DOUX", **s))
-	{
-		type.mod++;
-		ft_tolower(**s);
-	}
-	if (**s && ft_strchr("diouxSsCcp", **s))
+	if (**s && ft_strchr("DOUXdiouxSsCcp", **s))
 	{
 		type.format = **s;
+		if (**s && ft_strchr("DOUSC", **s))
+		{
+			type.mod++;
+			ft_tolower(type.format);
+		}
 		totalsize += ft_converter(type, args);
 		(*s)++;
 	}
@@ -94,27 +94,25 @@ size_t		ft_getarg(char **s, va_list args)
 
 size_t		ft_converter(t_type type, va_list list)
 {
-	size_t	i;
-	t_pconv	conv[10];
-	conv = {
+	size_t			i;
+	static t_pconv	conv[9] =
+	{
 		{'d', ft_conv_signed},
 		{'i', ft_conv_signed},
 		{'o', ft_conv_unsigned},
 		{'u', ft_conv_unsigned},
 		{'x', ft_conv_unsigned},
+		{'X', ft_conv_unsigned},
 		{'s', ft_conv_char},
-		{'S', ft_conv_char},
 		{'c', ft_conv_char},
-		{'C', ft_conv_char},
 		{'p', ft_conv_ptr}
 	};
 
-	i = 0;
-	while (i < 11)
-	{
+	type.sign.ll = 0;
+	type.unsign.ll = 0;
+	i = -1;
+	while (++i < 11)
 		if (type.format == conv[i].letter)
 			return (conv[i].ft_conv(type, list));
-		i++;
-	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: chle-van <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/19 17:40:20 by chle-van          #+#    #+#             */
-/*   Updated: 2017/09/03 15:36:44 by chle-van         ###   ########.fr       */
+/*   Updated: 2017/09/04 19:13:55 by chle-van         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int	ft_set_number_prec(t_type type)
 	return (size);
 }
 
-size_t		ft_set_number_field(t_type type)
+size_t		ft_set_number_field(t_type type, wchar_t *str)
 {
 	int padsize;
 	int soust;
@@ -58,6 +58,9 @@ size_t		ft_set_number_field(t_type type)
 	size = 0;
 	if ((type.format == 'x' || type.format == 'X') && type.padflags & 1)
 		soust += 2;
+	if (((type.format == 'd' || type.format == 'i') && type.padflags & 8 &&
+				str[0] == '-') || (type.format == 'o' && type.padflags & 1))
+		soust++;
 	if ((padsize = type.min_range - soust) > 0)
 	{
 		if (type.padflags & 2)
@@ -74,13 +77,22 @@ int			ft_padding_number(wchar_t *str, t_type type)
 	int size;
 
 	size = 0;
+	if (str[0] == '-' && type.padflags & 2)
+		ft_sendbuff('-', 1);
 	if (type.prec && type.padflags & 2)
 		type.padflags -= 2;
+	if ((type.padflags & 8) && ft_strchr("aAdeEfFgGi", type.format) &&
+			str[0] != '-' && (type.padflags & 2))
+	{
+		ft_sendbuff('+', 1);
+		size++;
+	}
 	if (!(type.padflags & 4))
-		size += ft_set_number_field(type);
+		size += ft_set_number_field(type, str);
 	if ((type.padflags & 1) && ft_strchr("oxXaAeEfFgG", type.format))
 		size += ft_pad_diez(type.format, str);
-	if ((type.padflags & 8) && ft_strchr("aAdeEfFgGi", type.format))
+	if ((type.padflags & 8) && ft_strchr("aAdeEfFgGi", type.format) &&
+			str[0] != '-' && !(type.padflags & 2))
 	{
 		ft_sendbuff('+', 1);
 		size++;
@@ -92,8 +104,10 @@ int			ft_padding_number(wchar_t *str, t_type type)
 	}
 	if (type.prec > type.size)
 		size += ft_set_number_prec(type);
+	if (str[0] == '-' && type.padflags & 2)
+		ft_addbuff(str + 1, type.size, 0);
 	ft_addbuff(str, type.size, 0);
 	if ((type.padflags & 4))
-		size += ft_set_number_field(type);
+		size += ft_set_number_field(type, str);
 	return (size);
 }
