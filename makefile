@@ -6,7 +6,7 @@
 #    By: chle-van <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/27 20:46:24 by chle-van          #+#    #+#              #
-#    Updated: 2017/07/07 14:24:55 by chle-van         ###   ########.fr        #
+#    Updated: 2017/09/04 17:03:51 by chle-van         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,8 @@ SRC=chars.c\
 	inp.c\
 	numeric.c\
 	padding.c\
-	padding_numbers.c
+	padding_numbers.c\
+	var.c
 
 OBJ=$(SRC:.c=.o)
 NAME=libftprintf.a
