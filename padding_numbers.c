@@ -81,7 +81,7 @@ int			ft_padding_number(wchar_t *str, t_type type)
 		ft_sendbuff('-', 1);
 	if (type.prec && type.padflags & 2)
 		type.padflags -= 2;
-	if ((type.padflags & 8) && ft_strchr("aAdeEfFgGi", type.format) &&
+	if ((type.padflags & 8) && ft_strchr("di", type.format) &&
 			str[0] != '-' && (type.padflags & 2))
 	{
 		ft_sendbuff('+', 1);
@@ -89,9 +89,9 @@ int			ft_padding_number(wchar_t *str, t_type type)
 	}
 	if (!(type.padflags & 4))
 		size += ft_set_number_field(type, str);
-	if ((type.padflags & 1) && ft_strchr("oxXaAeEfFgG", type.format))
+	if ((type.padflags & 1) && ft_strchr("oxX", type.format))
 		size += ft_pad_diez(type.format, str);
-	if ((type.padflags & 8) && ft_strchr("aAdeEfFgGi", type.format) &&
+	if ((type.padflags & 8) && ft_strchr("di", type.format) &&
 			str[0] != '-' && !(type.padflags & 2))
 	{
 		ft_sendbuff('+', 1);
@@ -110,4 +110,9 @@ int			ft_padding_number(wchar_t *str, t_type type)
 	if ((type.padflags & 4))
 		size += ft_set_number_field(type, str);
 	return (size);
+}
+
+ft_padding_signed(wchar_t *str, t_type type)
+{
+
 }

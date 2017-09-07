@@ -70,11 +70,9 @@ int			ft_printf(const char *s, ...)
 {
 	va_list			args;
 	int				i;
-	wchar_t			*tmp;
 	size_t			size;
 
 	size = 0;
-	tmp = NULL;
 	va_start(args, s);
 	while ((i = ft_strchr(s, '%') - s) >= 0)
 	{

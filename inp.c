@@ -12,12 +12,11 @@
 
 #include "printf.h"
 
-static char	ft_padflags(char **s)
+static void	ft_padflags(t_type type)
 {
-	char	flags;
 	int		tmp;
 
-	flags = 0;
+	tmp = 0;
 	while (ft_strchr("#0-+ ", **s))
 	{
 		if (**s == '#')
@@ -30,15 +29,14 @@ static char	ft_padflags(char **s)
 			tmp = 8;
 		else if (**s == ' ')
 			tmp = 16;
-		flags = flags | tmp;
+		type.padflags = type.padflags | tmp;
 		tmp = 0;
 		(*s)++;
 	}
-	if ((flags & 6) == 6)
-		flags -= 2;
-	if ((flags & 24) == 24)
-		flags -= 16;
-	return (flags);
+	if ((type.padflags & 6) == 6)
+		type.padflags -= 2;
+	if ((type.padflags & 24) == 24)
+		type.padflags -= 16;
 }
 
 static void	ft_prec(char **s, t_type *type)
@@ -74,10 +72,10 @@ size_t		ft_getarg(char **s, va_list args)
 	totalsize = 0;
 	(*s)++;
 	type.mod = 3;
-	type.padflags = ft_padflags(s);
 	ft_prec(s, &type);
+	ft_padflags(type);
 	while (ft_strchr("hl", **s) && type.mod < 6 && type.mod > 0)
-		type.mod = (*((*s)++) == 'l') ? (++type.mod) : (--type.mod);
+		type.mod = (*((*s)++) == 'l') ? (type.mod + 1) : (type.mod - 1);
 	if (**s && ft_strchr("DOUXdiouxSsCcp", **s))
 	{
 		type.format = **s;

@@ -12,7 +12,7 @@
 
 LIB_PATH=./libft/
 CC=gcc
-CFLAGS=-Wall -Wextra -Werror
+#CFLAGS=-Wall -Wextra -Werror
 SRC=chars.c\
 	buffer.c\
 	inp.c\
@@ -34,7 +34,7 @@ $(LIB_FILE):
 	cd $(LIB_PATH) && $(MAKE)
 
 $(NAME):$(LIB_FILE) $(PRLIB)
-	libtool -static -o $@ $^
+	ar crsT $@ $^
 	rm -rf $(PRLIB)
 
 $(PRLIB):$(OBJ)

@@ -15,9 +15,7 @@
 char		*ft_plltoa(t_type type)
 {
 	static char	res[16 * 8 + 2];
-	long long	llm;
 
-	llm = -1;
 	ft_bzero(res, 16 * 8 + 2);
 	if (ft_strchr("ouxX", type.format))
 		return (ft_ulltoa(type.sign.ll, res, 10));
@@ -29,9 +27,7 @@ char		*ft_plltoa(t_type type)
 char		*ft_pltoa(t_type type)
 {
 	static char	res[8 * 8 + 2];
-	long long	lm;
 
-	lm = -1;
 	ft_bzero(res, 8 * 8 + 2);
 	if (ft_strchr("ouxX", type.format))
 		return (ft_ultoa(type.sign.l, res, 10));
@@ -43,9 +39,7 @@ char		*ft_pltoa(t_type type)
 char		*ft_pitoa(t_type type)
 {
 	static char	res[4 * 8 + 2];
-	long long	im;
 
-	im = -1;
 	ft_bzero(res, 4 * 8 + 2);
 	if (ft_strchr("ouxX", type.format))
 		return (ft_uitoa(type.sign.i, res, 10));
@@ -57,9 +51,7 @@ char		*ft_pitoa(t_type type)
 char		*ft_pstoa(t_type type)
 {
 	static char	res[2 * 8 + 2];
-	long long	sm;
 
-	sm = -1;
 	ft_bzero(res, 2 * 8 + 2);
 	if (ft_strchr("ouxX", type.format))
 		return (ft_ustoa(type.sign.s, res, 10));
@@ -71,9 +63,7 @@ char		*ft_pstoa(t_type type)
 char		*ft_pctoa(t_type type)
 {
 	static char	res[1 * 8 + 2];
-	char		cm;
 
-	cm = -1;
 	ft_bzero(res, 1 * 8 + 2);
 	if (ft_strchr("ouxX", type.format))
 		return (ft_uctoa(type.sign.c, res, 10));
