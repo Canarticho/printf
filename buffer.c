@@ -6,7 +6,7 @@
 /*   By: chle-van <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 16:16:32 by chle-van          #+#    #+#             */
-/*   Updated: 2017/09/08 16:17:02 by chle-van         ###   ########.fr       */
+/*   Updated: 2017/09/08 16:24:37 by chle-van         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,14 @@ int			ft_printf(const char *s, ...)
 		ft_addbuff(ft_strtowcsd(ft_strndup(s, i)), i, FREE);
 		s += i;
 		size += i;
-		size += ft_getarg((char **)&s, args);
+		if (!(*(s + 1) == '%'))
+			size += ft_getarg((char **)&s, args);
+		else
+		{
+			ft_addbuff(L"%", 1, 0);
+			s += 2;
+			size++;
+		}
 	}
 	i = ft_strlen(s);
 	ft_addbuff(ft_strtowcsd(ft_strndup(s, i)), i, FREE + FLUSH);
