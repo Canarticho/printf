@@ -6,7 +6,7 @@
 /*   By: chle-van <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/07 13:45:42 by chle-van          #+#    #+#             */
-/*   Updated: 2017/09/03 15:34:09 by chle-van         ###   ########.fr       */
+/*   Updated: 2017/09/08 16:09:52 by chle-van         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ size_t	ft_padding_chars(t_type type, wchar_t *str, char state)
 	padsize = 0;
 	if (type.min_range > type.prec || type.min_range > type.size)
 	{
-		if (type.size > type.prec)
+		if (type.size > type.prec && type.prec != 0)
 			padsize = type.min_range - type.prec;
 		else
 			padsize = type.min_range - type.size;

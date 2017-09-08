@@ -6,13 +6,13 @@
 #    By: chle-van <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/27 20:46:24 by chle-van          #+#    #+#              #
-#    Updated: 2017/09/04 17:03:51 by chle-van         ###   ########.fr        #
+#    Updated: 2017/09/08 14:26:38 by chle-van         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 LIB_PATH=./libft/
 CC=gcc
-#CFLAGS=-Wall -Wextra -Werror
+CFLAGS=-Wall -Wextra -Werror
 SRC=chars.c\
 	buffer.c\
 	inp.c\
@@ -34,7 +34,7 @@ $(LIB_FILE):
 	cd $(LIB_PATH) && $(MAKE)
 
 $(NAME):$(LIB_FILE) $(PRLIB)
-	ar crsT $@ $^
+	libtool -static -o $@ $^
 	rm -rf $(PRLIB)
 
 $(PRLIB):$(OBJ)

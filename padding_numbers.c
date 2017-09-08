@@ -6,7 +6,7 @@
 /*   By: chle-van <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/19 17:40:20 by chle-van          #+#    #+#             */
-/*   Updated: 2017/09/04 19:13:55 by chle-van         ###   ########.fr       */
+/*   Updated: 2017/09/08 16:03:20 by chle-van         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 static int	ft_pad_diez(char type, wchar_t *str)
 {
-	if (ft_strchr("X", type))
+	if (ft_strchr("X", type) && *str != '0')
 	{
 		ft_addbuff(L"0X", 2, 0);
 		return (2);
 	}
-	if (ft_strchr("x", type))
+	if (ft_strchr("x", type) && *str != '0')
 	{
 		ft_addbuff(L"0x", 2, 0);
 		return (2);
@@ -72,47 +72,63 @@ size_t		ft_set_number_field(t_type type, wchar_t *str)
 	return (size);
 }
 
-int			ft_padding_number(wchar_t *str, t_type type)
+static size_t		ft_padding_signed(wchar_t *str, t_type type)
 {
 	int size;
 
 	size = 0;
 	if (str[0] == '-' && type.padflags & 2)
 		ft_sendbuff('-', 1);
-	if (type.prec && type.padflags & 2)
-		type.padflags -= 2;
-	if ((type.padflags & 8) && ft_strchr("di", type.format) &&
-			str[0] != '-' && (type.padflags & 2))
+	if ((type.padflags & 8) && str[0] != '-' && (type.padflags & 2))
 	{
 		ft_sendbuff('+', 1);
 		size++;
 	}
 	if (!(type.padflags & 4))
 		size += ft_set_number_field(type, str);
-	if ((type.padflags & 1) && ft_strchr("oxX", type.format))
-		size += ft_pad_diez(type.format, str);
-	if ((type.padflags & 8) && ft_strchr("di", type.format) &&
-			str[0] != '-' && !(type.padflags & 2))
+	if ((type.padflags & 8) && str[0] != '-' && !(type.padflags & 2))
 	{
 		ft_sendbuff('+', 1);
 		size++;
 	}
-	else if ((type.padflags & 16) && ft_strchr("aAdeEfFgGi", type.format))
-	{
-		ft_sendbuff(' ', 1);
-		size++;
-	}
-	if (type.prec > type.size)
-		size += ft_set_number_prec(type);
+	size += ft_set_number_prec(type);
 	if (str[0] == '-' && type.padflags & 2)
 		ft_addbuff(str + 1, type.size, 0);
+	else
+		ft_addbuff(str, type.size, 0);
+	if ((type.padflags & 4))
+		size += ft_set_number_field(type, str);
+	return (size);
+}
+
+static size_t		ft_padding_unsigned(wchar_t *str, t_type type)
+{
+	int size;
+
+	size = 0;
+	if (!(type.padflags & 4) && !(type.padflags & 2))
+		size += ft_set_number_field(type, str);
+	if ((type.padflags & 1) && ft_strchr("oxX", type.format))
+		size += ft_pad_diez(type.format, str);
+	if (!(type.padflags & 4) && (type.padflags & 2))
+		size += ft_set_number_field(type, str);
+	size += ft_set_number_prec(type);
 	ft_addbuff(str, type.size, 0);
 	if ((type.padflags & 4))
 		size += ft_set_number_field(type, str);
 	return (size);
 }
 
-ft_padding_signed(wchar_t *str, t_type type)
+size_t			ft_padding_number(wchar_t *str, t_type type)
 {
+	int size;
 
+	size = 0;
+	if (type.prec && type.padflags & 2)
+		type.padflags -= 2;
+	if (ft_strchr("di",type.format))
+		size = ft_padding_signed(str, type);
+	else
+		size = ft_padding_unsigned(str, type);
+	return (size);
 }

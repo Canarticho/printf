@@ -6,13 +6,13 @@
 /*   By: chle-van <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/08 07:08:26 by chle-van          #+#    #+#             */
-/*   Updated: 2017/09/04 14:45:58 by chle-van         ###   ########.fr       */
+/*   Updated: 2017/09/08 16:16:00 by chle-van         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "printf.h"
 
-static void	ft_padflags(t_type type)
+static void	ft_padflags(char **s, t_type *type)
 {
 	int		tmp;
 
@@ -29,14 +29,14 @@ static void	ft_padflags(t_type type)
 			tmp = 8;
 		else if (**s == ' ')
 			tmp = 16;
-		type.padflags = type.padflags | tmp;
+		type->padflags = type->padflags | tmp;
 		tmp = 0;
 		(*s)++;
 	}
-	if ((type.padflags & 6) == 6)
-		type.padflags -= 2;
-	if ((type.padflags & 24) == 24)
-		type.padflags -= 16;
+	if ((type->padflags & 6) == 6)
+		type->padflags -= 2;
+	if ((type->padflags & 24) == 24)
+		type->padflags -= 16;
 }
 
 static void	ft_prec(char **s, t_type *type)
@@ -72,8 +72,13 @@ size_t		ft_getarg(char **s, va_list args)
 	totalsize = 0;
 	(*s)++;
 	type.mod = 3;
+	ft_padflags(s, &type);
 	ft_prec(s, &type);
-	ft_padflags(type);
+	if (**s == '%')
+	{
+		ft_sendbuff('%', 1);
+		return (1);
+	}
 	while (ft_strchr("hl", **s) && type.mod < 6 && type.mod > 0)
 		type.mod = (*((*s)++) == 'l') ? (type.mod + 1) : (type.mod - 1);
 	if (**s && ft_strchr("DOUXdiouxSsCcp", **s))

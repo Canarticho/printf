@@ -6,7 +6,7 @@
 /*   By: chle-van <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/12 17:18:32 by chle-van          #+#    #+#             */
-/*   Updated: 2017/09/04 18:51:31 by chle-van         ###   ########.fr       */
+/*   Updated: 2017/09/08 14:09:51 by chle-van         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ typedef	struct				s_pconv
 int							ft_printf(const char *s, ...);
 size_t						ft_conv_signed(t_type type, va_list list);
 size_t						ft_conv_unsigned(t_type type, va_list list);
-int							ft_padding_number(wchar_t *str, t_type type);
+size_t						ft_padding_number(wchar_t *str, t_type type);
 size_t						ft_conv_ptr(t_type type, va_list arg);
 size_t						ft_conv_char(t_type type, va_list arg);
 size_t						ft_padding_chars(t_type type, wchar_t *str, char s);
