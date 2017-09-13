@@ -12,12 +12,16 @@
 
 #include "printf.h"
 
+size_t	ft_paddingcharsnp(t_type type, wchar_t *str, char state)
+
 size_t	ft_padding_chars(t_type type, wchar_t *str, char state)
 {
 	size_t padsize;
 
+	if (!type.pp || type.prec > type.size)
+		return (ft_paddingcharnp(type, str, state));
 	padsize = 0;
-	if (type.min_range > type.prec || type.min_range > type.size)
+	if (type.min_range > type.size)
 	{
 		if (type.size > type.prec && type.prec != 0)
 			padsize = type.min_range - type.prec;
