@@ -28,8 +28,10 @@ typedef	struct				s_type
 		char				c;
 		short				s;
 		int					i;
+		ssize_t				sst;
 		long				l;
 		long long			ll;
+		intmax_t			im;
 	}						sign;
 
 	union					u_unsign
@@ -37,8 +39,10 @@ typedef	struct				s_type
 		unsigned char		c;
 		unsigned short		s;
 		unsigned int		i;
+		size_t				st;
 		unsigned long		l;
 		unsigned long long	ll;
+		uintmax_t			um;
 	}						unsign;
 
 	size_t					size;

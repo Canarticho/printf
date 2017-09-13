@@ -45,6 +45,10 @@ size_t				ft_conv_signed(t_type type, va_list list)
 		type.sign.l = (long)va_arg(list, long);
 	else if (type.mod == 5)
 		type.sign.ll = (long long)va_arg(list, long long);
+	if (type.mod == 7)
+		type.mod = 4;
+	else if (type.mod == 6)
+		type.mod == 5
 	res = ft_prep_var(type);
 	type.size = ft_strlen(res);
 	return (ft_padding_number(ft_strtowcs(res), type) + type.size);
@@ -83,9 +87,37 @@ size_t				ft_conv_unsigned(t_type type, va_list list)
 		type.unsign.l = (long)va_arg(list, long);
 	else if (type.mod == 5)
 		type.unsign.ll = (long long)va_arg(list, long long);
+	if (type.mod == 7)
+		type.mod = 4;
+	if (type.mod == 6)
+		type.mod == 5
 	res = ft_prep_unsign(type);
 	type.size = ft_strlen(res);
 	while (res[++i] && type.format == 'X')
 		res[i] = ft_toupper(res[i]);
 	return (ft_padding_number(ft_strtowcs(res), type) + type.size);
+}
+
+size_t				ft_convsp(t_type type, va_list list)
+{
+	char *res;
+
+	if (type.mod == 6)
+	{
+		if (ft_strchr("di", type.format))
+			type.sign.im ==(intmax_t)va_arg(list, intmax_t);
+		else if (ft_strchr("ouxX", type.format))
+			type.unsign.um = (uintmax_t)va_arg(list, uintmax_t);
+		}
+	else if (type.mod == 7)
+		{
+		if (ft_strchr("di", type.format))
+			type.sign.sst = (ssize_t)va_arg(list, sszie_t);
+		else if (ft_strchr("ouxX", type.format))
+			type.unsign.st = (size_t)va_arg(list, size_t);
+		if (ft_strchr("di", type.format))
+			return (ft_conv_signed(type, list));
+		if (ft_strchr("ouxX", type.format))
+			return (ft_conv_unsigned(type, list));
+		}
 }
