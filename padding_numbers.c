@@ -93,7 +93,7 @@ static size_t		ft_padding_signed(wchar_t *str, t_type type)
 	}
 	size += ft_set_number_prec(type);
 	if (str[0] == '-' && type.padflags & 2)
-		ft_addbuff(str + 1, type.size, 0);
+		ft_addbuff(str, type.size, 0);
 	else
 		ft_addbuff(str, type.size, 0);
 	if ((type.padflags & 4))

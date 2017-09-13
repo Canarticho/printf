@@ -48,6 +48,7 @@ typedef	struct				s_type
 	size_t					size;
 	size_t					min_range;
 	size_t					prec;
+	char					pp;
 	int						mod;
 	char					padflags;
 	char					format;

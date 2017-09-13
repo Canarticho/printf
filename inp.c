@@ -57,6 +57,7 @@ static void	ft_prec(char **s, t_type *type)
 	int		i;
 	char	tmp[20];
 
+	type->pp = 0;
 	type->prec = 0;
 	type->min_range = 0;
 	i = 0;
@@ -74,6 +75,7 @@ static void	ft_prec(char **s, t_type *type)
 			i++;
 		type->prec = ft_atoi(ft_strncpy(tmp, *s, i));
 		*s += i;
+		type->pp = 1;
 	}
 }
 
