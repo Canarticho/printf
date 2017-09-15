@@ -12,18 +12,18 @@
 
 #include "printf.h"
 
-	static t_pconv	conv[9] =
-	{
-		{'d', ft_conv_signed},
-		{'i', ft_conv_signed},
-		{'o', ft_conv_unsigned},
-		{'u', ft_conv_unsigned},
-		{'x', ft_conv_unsigned},
-		{'X', ft_conv_unsigned},
-		{'s', ft_conv_char},
-		{'c', ft_conv_char},
-		{'p', ft_conv_ptr}
-	};
+static t_pconv	conv[9] =
+{
+	{'d', ft_conv_signed},
+	{'i', ft_conv_signed},
+	{'o', ft_conv_unsigned},
+	{'u', ft_conv_unsigned},
+	{'x', ft_conv_unsigned},
+	{'X', ft_conv_unsigned},
+	{'s', ft_conv_char},
+	{'c', ft_conv_char},
+	{'p', ft_conv_ptr}
+};
 
 static void	ft_padflags(char **s, t_type *type)
 {
@@ -81,15 +81,16 @@ static void	ft_prec(char **s, t_type *type)
 
 static void	ft_mod(char **s, t_type *type)
 {
+	type->mod = 3;
 	while (ft_strchr("hlzj", **s) && type->mod < 6 && type->mod > 0)
 	{
 		if (ft_strchr("hl", **s))
-			type->mod = (**s) == 'l') ? (type->mod + 1) : (type->mod - 1);
+			type->mod = ((**s) == 'l') ? (type->mod + 1) : (type->mod - 1);
 		if (**s == 'z')
-			type.mod = 6;
+			type->mod = 6;
 		if (**s == 'j')
 			type->mod = 7;
-		*s++
+		(*s)++;
 	}
 }
 size_t		ft_getarg(char **s, va_list args)
@@ -99,17 +100,16 @@ size_t		ft_getarg(char **s, va_list args)
 
 	totalsize = 0;
 	(*s)++;
-	type.mod = 3;
 	ft_padflags(s, &type);
 	ft_prec(s, &type);
-	ft_mod(s, &type)
+	ft_mod(s, &type);
 	if (**s && ft_strchr("DOUXdiouxSsCcp", **s))
 	{
 		type.format = **s;
 		if (**s && ft_strchr("DOUSC", **s))
 		{
 			type.mod++;
-			ft_tolower(type.format);
+			type.format += 32;
 		}
 		totalsize += ft_converter(type, args);
 		(*s)++;
@@ -124,7 +124,7 @@ size_t		ft_converter(t_type type, va_list list)
 	type.sign.ll = 0;
 	type.unsign.ll = 0;
 	if (type.mod > 5)
-		return (ft_convsp(type, list);
+		return (ft_convsp(type, list));
 	i = -1;
 	while (++i < 11)
 		if (type.format == conv[i].letter)

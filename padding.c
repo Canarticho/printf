@@ -12,42 +12,50 @@
 
 #include "printf.h"
 
-size_t	ft_paddingcharsnp(t_type type, wchar_t *str, char state)
+static size_t	ft_paddingcharsnp(t_type type, wchar_t *str, char state)
+{
+	size_t padsize;
 
-size_t	ft_padding_chars(t_type type, wchar_t *str, char state)
+	if (type.min_range > type.size)
+	{
+		padsize = type.min_range - type.size;
+		if (!(type.padflags & 4))
+		{
+			ft_sendbuff(' ', padsize);
+			ft_addbuff(str, type.size, state);
+		}
+		else
+		{
+			ft_addbuff(str, type.size, state);
+			ft_sendbuff(' ', padsize);
+		}
+		return (type.min_range);
+	}
+	ft_addbuff(str, type.size, state);
+	return (type.size);
+}
+
+size_t			ft_padding_chars(t_type type, wchar_t *str, char state)
 {
 	size_t padsize;
 
 	if (!type.pp || type.prec > type.size)
-		return (ft_paddingcharnp(type, str, state));
-	padsize = 0;
-	if (type.min_range > type.size)
+		return (ft_paddingcharsnp(type, str, state));
+	if (type.min_range > type.prec)
 	{
-		if (type.size > type.prec && type.prec != 0)
-			padsize = type.min_range - type.prec;
-		else
-			padsize = type.min_range - type.size;
+		padsize = type.min_range - type.prec;
 		if (!(type.padflags & 4))
 		{
 			ft_sendbuff(' ', padsize);
-			if (type.prec)
-				ft_addbuff(str, type.prec, state);
-			else
-				ft_addbuff(str, type.size, state);
+			ft_addbuff(str, type.prec, state);
 		}
 		else
 		{
-			if (type.prec)
-				ft_addbuff(str, type.prec, state);
-			else
-				ft_addbuff(str, type.size, state);
+			ft_addbuff(str, type.prec, state);
 			ft_sendbuff(' ', padsize);
 		}
-		return (type.prec + padsize);
+		return (type.min_range);
 	}
-	else if (type.prec)
-		ft_addbuff(str, type.prec, state);
-	else
-		ft_addbuff(str, type.size, state);
-	return ((type.prec == 0) ? (type.size) : (type.prec));
+	ft_addbuff(str, type.prec, state);
+	return (type.prec);
 }

@@ -54,7 +54,7 @@ typedef	struct				s_type
 	char					format;
 }							t_type;
 
-typedef char				*(t_var)(t_type type);
+typedef char				*(t_var)(t_type type, int base);
 typedef	struct				s_pvar
 {
 	int						mod;
@@ -79,10 +79,11 @@ void						ft_addbuff(void *src, size_t size, char flag);
 void						ft_sendbuff(char c, int size);
 size_t						ft_getarg(char **src, va_list args);
 size_t						ft_converter(t_type type, va_list list);
+size_t						ft_convsp(t_type type, va_list list);
 size_t						ft_set_number_field(t_type type, wchar_t *str);
-char						*ft_plltoa(t_type type);
-char						*ft_pltoa(t_type type);
-char						*ft_pitoa(t_type type);
-char						*ft_pstoa(t_type type);
-char						*ft_pctoa(t_type type);
+char						*ft_plltoa(t_type type, int base);
+char						*ft_pltoa(t_type type, int base);
+char						*ft_pitoa(t_type type, int base);
+char						*ft_pstoa(t_type type, int base);
+char						*ft_pctoa(t_type type, int base);
 #endif

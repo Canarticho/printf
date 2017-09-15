@@ -12,6 +12,20 @@
 
 #include "printf.h"
 
+static int			ft_prep_unsign(char format)
+{
+	int			base;
+
+	base = 0;
+	if (format == 'u')
+		base = 10;
+	else if (format == 'o')
+		base = 8;
+	else if (format == 'x' || format == 'X')
+		base = 16;
+	return (base);
+}
+
 char				*ft_prep_var(t_type type)
 {
 	static t_pvar var[5] = 
@@ -27,7 +41,7 @@ char				*ft_prep_var(t_type type)
 	i = -1;
 	while (++i < 5)
 		if (type.mod == var[i].mod)
-			return (var[i].ft_var(type));
+			return (var[i].ft_var(type, ft_prep_unsign(type.format)));
 	return (NULL);
 }
 
@@ -48,28 +62,12 @@ size_t				ft_conv_signed(t_type type, va_list list)
 	if (type.mod == 7)
 		type.mod = 4;
 	else if (type.mod == 6)
-		type.mod == 5
+		type.mod = 5;
 	res = ft_prep_var(type);
 	type.size = ft_strlen(res);
 	return (ft_padding_number(ft_strtowcs(res), type) + type.size);
 }
 
-static char			*ft_prep_unsign(t_type type)
-{
-	int			base;
-	static char	res[16 * 8 + 2];
-
-	ft_bzero(res, 16 * 8 + 2);
-	base = 0;
-	if (type.format == 'u')
-		base = 10;
-	else if (type.format == 'o')
-		base = 8;
-	else if (type.format == 'x' || type.format == 'X')
-		base = 16;
-	ft_ulltoa(type.unsign.ll, res, base);
-	return (res);
-}
 
 size_t				ft_conv_unsigned(t_type type, va_list list)
 {
@@ -90,8 +88,8 @@ size_t				ft_conv_unsigned(t_type type, va_list list)
 	if (type.mod == 7)
 		type.mod = 4;
 	if (type.mod == 6)
-		type.mod == 5
-	res = ft_prep_unsign(type);
+		type.mod = 5;
+	res = ft_prep_var(type);
 	type.size = ft_strlen(res);
 	while (res[++i] && type.format == 'X')
 		res[i] = ft_toupper(res[i]);
@@ -100,24 +98,23 @@ size_t				ft_conv_unsigned(t_type type, va_list list)
 
 size_t				ft_convsp(t_type type, va_list list)
 {
-	char *res;
-
 	if (type.mod == 6)
 	{
 		if (ft_strchr("di", type.format))
-			type.sign.im ==(intmax_t)va_arg(list, intmax_t);
+			type.sign.im = (intmax_t)va_arg(list, intmax_t);
 		else if (ft_strchr("ouxX", type.format))
 			type.unsign.um = (uintmax_t)va_arg(list, uintmax_t);
-		}
+	}
 	else if (type.mod == 7)
-		{
+	{
 		if (ft_strchr("di", type.format))
-			type.sign.sst = (ssize_t)va_arg(list, sszie_t);
+			type.sign.sst = (ssize_t)va_arg(list, ssize_t);
 		else if (ft_strchr("ouxX", type.format))
 			type.unsign.st = (size_t)va_arg(list, size_t);
 		if (ft_strchr("di", type.format))
 			return (ft_conv_signed(type, list));
 		if (ft_strchr("ouxX", type.format))
 			return (ft_conv_unsigned(type, list));
-		}
+	}
+	return(0);
 }
