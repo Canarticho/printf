@@ -6,7 +6,7 @@
 /*   By: chle-van <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/19 17:40:20 by chle-van          #+#    #+#             */
-/*   Updated: 2017/09/08 16:03:20 by chle-van         ###   ########.fr       */
+/*   Updated: 2017/09/15 16:50:41 by chle-van         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,11 @@ static size_t		ft_padding_signed(wchar_t *str, t_type type)
 		ft_sendbuff('+', 1);
 		size++;
 	}
+	if ((type.padflags & 16) && str[0] != '-' && (type.padflags & 2))
+	{
+		ft_sendbuff(' ', 1);
+		size++;
+	}
 	if (!(type.padflags & 4))
 		size += ft_set_number_field(type, str);
 	if ((type.padflags & 8) && str[0] != '-' && !(type.padflags & 2))
@@ -93,7 +98,7 @@ static size_t		ft_padding_signed(wchar_t *str, t_type type)
 	}
 	size += ft_set_number_prec(type);
 	if (str[0] == '-' && type.padflags & 2)
-		ft_addbuff(str, type.size, 0);
+		ft_addbuff(str + 1, type.size, 0);
 	else
 		ft_addbuff(str, type.size, 0);
 	if ((type.padflags & 4))

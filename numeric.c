@@ -6,7 +6,7 @@
 /*   By: chle-van <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/19 17:41:00 by chle-van          #+#    #+#             */
-/*   Updated: 2017/09/04 17:02:16 by chle-van         ###   ########.fr       */
+/*   Updated: 2017/09/15 14:04:13 by chle-van         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,10 +111,10 @@ size_t				ft_convsp(t_type type, va_list list)
 			type.sign.sst = (ssize_t)va_arg(list, ssize_t);
 		else if (ft_strchr("ouxX", type.format))
 			type.unsign.st = (size_t)va_arg(list, size_t);
-		if (ft_strchr("di", type.format))
-			return (ft_conv_signed(type, list));
-		if (ft_strchr("ouxX", type.format))
-			return (ft_conv_unsigned(type, list));
 	}
+	if (ft_strchr("di", type.format))
+		return (ft_conv_signed(type, list));
+	if (ft_strchr("ouxX", type.format))
+		return (ft_conv_unsigned(type, list));
 	return(0);
 }

@@ -6,7 +6,7 @@
 /*   By: chle-van <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 18:25:14 by chle-van          #+#    #+#             */
-/*   Updated: 2017/09/03 15:45:45 by chle-van         ###   ########.fr       */
+/*   Updated: 2017/09/15 14:45:29 by chle-van         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ size_t			ft_wchar(t_type type, va_list args)
 	if (type.format == 'c' || type.format == 'C')
 	{
 		wc = (wchar_t)va_arg(args, wchar_t);
-		ft_addbuff(&wc, 1, 0);
-		return (1);
+		type.size = 1;
+		return (ft_padding_chars(type, &wc, 0));
 	}
 	else
 	{

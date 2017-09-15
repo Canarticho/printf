@@ -6,7 +6,7 @@
 /*   By: chle-van <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/08 07:08:26 by chle-van          #+#    #+#             */
-/*   Updated: 2017/09/08 16:24:55 by chle-van         ###   ########.fr       */
+/*   Updated: 2017/09/15 16:05:05 by chle-van         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ size_t		ft_getarg(char **s, va_list args)
 		type.format = **s;
 		if (**s && ft_strchr("DOUSC", **s))
 		{
-			type.mod++;
+			type.mod = 4;
 			type.format += 32;
 		}
 		totalsize += ft_converter(type, args);
