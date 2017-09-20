@@ -15,7 +15,18 @@
 int main(void)
 {
 	int i = 0;
-	i = ft_printf("Phrase de quatre mots avac ou sans .");
+
+	i = ft_printf("%5%", -1);
+	ft_putchar('\n');
 	ft_putnbr(i);
+	ft_putchar('\n');
+	i = ft_printf("%-5%", 4242);
+	ft_putchar('\n');
+	ft_putnbr(i);
+	ft_putchar('\n');
+	i = ft_printf("%   %", 0, 0);
+	ft_putchar('\n');
+	ft_putnbr(i);
+	ft_putchar('\n');
 	return (0);
 }

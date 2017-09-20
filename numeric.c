@@ -50,9 +50,9 @@ size_t				ft_conv_signed(t_type type, va_list list)
 	char *res;
 
 	if (type.mod == 1)
-		type.sign.s = (char)va_arg(list, int);
+		type.sign.c = (char)va_arg(list, int);
 	else if (type.mod == 2)
-		type.sign.c = (short)va_arg(list, int);
+		type.sign.s = (short)va_arg(list, int);
 	else if (type.mod == 3)
 		type.sign.i = (int)va_arg(list, int);
 	else if (type.mod == 4)

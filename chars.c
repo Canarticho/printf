@@ -58,3 +58,26 @@ size_t			ft_conv_ptr(t_type type, va_list args)
 	ft_addbuff(tmp, type.size, 0);
 	return (type.size);
 }
+
+size_t	ft_doublep(t_type type)
+{
+	size_t	res;
+	wchar_t	str[2];
+
+	str[0] = '%';
+	str[1] = '\0';
+	type.size = 1;
+	res = 1;
+	if (type.padflags & 4)
+	{
+		res = ft_set_number_field(type, str, 0);
+		ft_sendbuff('%', 1);
+	}
+	else
+	{
+		ft_sendbuff('%', 1);
+		res = ft_set_number_field(type, str, 0);
+	}
+	return (res);
+}
+

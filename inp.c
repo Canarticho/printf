@@ -30,6 +30,7 @@ static void	ft_padflags(char **s, t_type *type)
 	int		tmp;
 
 	tmp = 0;
+	type->padflags = 0;
 	while (ft_strchr("#0-+ ", **s))
 	{
 		if (**s == '#')
@@ -103,8 +104,10 @@ size_t		ft_getarg(char **s, va_list args)
 	ft_padflags(s, &type);
 	ft_prec(s, &type);
 	ft_mod(s, &type);
-	if (**s && ft_strchr("DOUXdiouxSsCcp", **s))
+	if (**s && ft_strchr("DOUXdiouxSsCcp%", **s))
 	{
+		if (**s == '%')
+			return (ft_doublep(type));
 		type.format = **s;
 		if (**s && ft_strchr("DOUSC", **s))
 		{
