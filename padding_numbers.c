@@ -58,6 +58,8 @@ size_t		ft_set_number_field(t_type type, wchar_t *str, int neg)
 	int red;
 	int size;
 
+	if (str)
+return (0);
 	soust = (type.prec > type.size) ? (type.prec) : (type.size);
 	red = (type.padflags & 24) ? (1 + neg) : (neg);
 	size = 0;
