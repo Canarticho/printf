@@ -6,7 +6,7 @@
 #    By: chle-van <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/27 20:46:24 by chle-van          #+#    #+#              #
-#    Updated: 2017/09/15 13:46:49 by chle-van         ###   ########.fr        #
+#    Updated: 2017/10/16 22:41:49 by chle-van         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ CC=gcc
 CFLAGS=-Wall -Wextra -Werror
 SRC=chars.c\
 	buffer.c\
+	bufferw.c\
 	inp.c\
 	numeric.c\
 	padding.c\

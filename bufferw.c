@@ -5,54 +5,54 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: chle-van <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/10/17 00:45:25 by chle-van          #+#    #+#             */
-/*   Updated: 2017/10/17 03:51:38 by chle-van         ###   ########.fr       */
+/*   Created: 2017/05/23 16:16:32 by chle-van          #+#    #+#             */
+/*   Updated: 2017/10/17 04:21:16 by chle-van         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "printf.h"
 
-void		ft_sendbuff(char c, int size)
+void		ft_sendbuffw(char c, int size)
 {
-	char	s[BUFF_SIZE];
+	wchar_t	wcs[BUFF_SIZE];
 	int		i;
 
-	ft_bzero(s, BUFF_SIZE * sizeof(char));
+	ft_bzero(wcs, BUFF_SIZE * sizeof(wchar_t));
 	i = 0;
 	while (size && i < BUFF_SIZE)
 	{
-		s[i] = (char)c;
+		wcs[i] = (wchar_t)c;
 		i++;
 		if (i == BUFF_SIZE || i == size)
 		{
-			ft_addbuff(s, i, 0);
+			ft_addbuff(wcs, i, 0);
 			if ((size -= i))
 				ft_sendbuff(c, size);
 		}
 	}
 }
 
-static void ft_clear(size_t size, char *res)
+static void	ft_clearw(size_t size, wchar_t *res)
 {
-	write(1, res, size * sizeof(char));
-	ft_bzero(res, (size_t)BUFF_SIZE * sizeof(char));
+	write(1, res, size * sizeof(wchar_t));
+	ft_bzero(res, (size_t)BUFF_SIZE * sizeof(wchar_t));
 }
 
-void		ft_addbuff(void *src, size_t size, char flag)
+void		ft_addbuffw(void *src, size_t size, char flag)
 {
-	static char		res[BUFF_SIZE];
-	static size_t	offset;
+	static wchar_t			res[BUFF_SIZE];
+	static size_t			offset;
 
-//	ft_addbuffw(NULL, 0, FLUSH);
+	ft_addbuff(NULL, 0, FLUSH);
 	if (size < BUFF_SIZE - offset)
 	{
-		ft_memcpy(res + offset, src, size * sizeof(char));
+		ft_memcpy(res + offset, src, size * sizeof(wchar_t));
 		offset += size;
 	}
 	else
 	{
 		ft_memcpy(res + offset, src, BUFF_SIZE - offset);
-		ft_clear(BUFF_SIZE, res);
+		ft_clearw(BUFF_SIZE, res);
 		size -= BUFF_SIZE - offset;
 		offset = 0;
 		if (size)
@@ -60,9 +60,29 @@ void		ft_addbuff(void *src, size_t size, char flag)
 	}
 	if (flag & FLUSH)
 	{
-		ft_clear(offset, res);
+		ft_clearw(offset, res);
 		offset = 0;
 	}
 	if (flag & FREE)
-		ft_strdel((char **)&src);
+		ft_wcsdel((wchar_t **)&src);
+}
+
+int			ft_printf(const char *s, ...)
+{
+	va_list			args;
+	int				i;
+	size_t			size;
+
+	size = 0;
+	va_start(args, s);
+	while ((i = ft_strchr(s, '%') - s) >= 0)
+	{
+		ft_addbuff(ft_strndup(s, i), i, FREE);
+		s += i;
+		size += i;
+			size += ft_getarg((char **)&s, args);
+	}
+	i = ft_strlen(s);
+	ft_addbuff(ft_strndup(s, i), i, FLUSH + FREE);
+	return (size + i);
 }

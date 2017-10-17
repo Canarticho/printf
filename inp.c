@@ -6,7 +6,7 @@
 /*   By: chle-van <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/08 07:08:26 by chle-van          #+#    #+#             */
-/*   Updated: 2017/09/15 16:05:05 by chle-van         ###   ########.fr       */
+/*   Updated: 2017/10/17 04:52:26 by chle-van         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,20 +100,25 @@ size_t		ft_getarg(char **s, va_list args)
 	size_t	totalsize;
 
 	totalsize = 0;
+	type.format = 0;
 	(*s)++;
 	ft_padflags(s, &type);
 	ft_prec(s, &type);
 	ft_mod(s, &type);
 	if (**s && ft_strchr("DOUXdiouxSsCcp%", **s))
 	{
-		if (**s == '%')
-			return (ft_doublep(type));
 		type.format = **s;
+		if (**s == '%')
+		{
+			(*s)++;
+			return (ft_doublep(type));
+		}
 		if (**s && ft_strchr("DOUSC", **s))
 		{
 			type.mod = 4;
 			type.format += 32;
 		}
+		if (type.format)
 		totalsize += ft_converter(type, args);
 		(*s)++;
 	}

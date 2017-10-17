@@ -6,7 +6,7 @@
 /*   By: chle-van <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/19 17:41:00 by chle-van          #+#    #+#             */
-/*   Updated: 2017/09/15 14:04:13 by chle-van         ###   ########.fr       */
+/*   Updated: 2017/10/17 01:37:41 by chle-van         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,9 @@ size_t				ft_conv_signed(t_type type, va_list list)
 		type.mod = 5;
 	res = ft_prep_var(type);
 	type.size = ft_strlen(res);
-	return (ft_padding_number(ft_strtowcs(res), type) + type.size);
+	if (!type.sign.ll && type.pp && !type.prec)
+		type.size = 0;
+	return (ft_padding_number(res, type) + type.size);
 }
 
 
@@ -93,7 +95,9 @@ size_t				ft_conv_unsigned(t_type type, va_list list)
 	type.size = ft_strlen(res);
 	while (res[++i] && type.format == 'X')
 		res[i] = ft_toupper(res[i]);
-	return (ft_padding_number(ft_strtowcs(res), type) + type.size);
+	if (!type.unsign.ll && type.pp && !type.prec)
+		type.size = 0;
+	return (ft_padding_number(res, type) + type.size);
 }
 
 size_t				ft_convsp(t_type type, va_list list)
