@@ -6,7 +6,7 @@
 /*   By: chle-van <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 16:16:32 by chle-van          #+#    #+#             */
-/*   Updated: 2017/10/17 04:21:16 by chle-van         ###   ########.fr       */
+/*   Updated: 2017/10/18 05:23:53 by chle-van         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,12 @@ int			ft_printf(const char *s, ...)
 
 	size = 0;
 	va_start(args, s);
-	while ((i = ft_strchr(s, '%') - s) >= 0)
+	while ((i = ft_strchr(s, '%') - s) >= 0 && *(s + 1))
 	{
 		ft_addbuff(ft_strndup(s, i), i, FREE);
 		s += i;
 		size += i;
-			size += ft_getarg((char **)&s, args);
+		size += ft_getarg((char **)&s, args);
 	}
 	i = ft_strlen(s);
 	ft_addbuff(ft_strndup(s, i), i, FLUSH + FREE);

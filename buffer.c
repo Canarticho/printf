@@ -6,7 +6,7 @@
 /*   By: chle-van <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/17 00:45:25 by chle-van          #+#    #+#             */
-/*   Updated: 2017/10/17 03:51:38 by chle-van         ###   ########.fr       */
+/*   Updated: 2017/10/18 01:46:10 by chle-van         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void		ft_sendbuff(char c, int size)
 	}
 }
 
-static void ft_clear(size_t size, char *res)
+static void	ft_clear(size_t size, char *res)
 {
 	write(1, res, size * sizeof(char));
 	ft_bzero(res, (size_t)BUFF_SIZE * sizeof(char));
@@ -43,7 +43,6 @@ void		ft_addbuff(void *src, size_t size, char flag)
 	static char		res[BUFF_SIZE];
 	static size_t	offset;
 
-//	ft_addbuffw(NULL, 0, FLUSH);
 	if (size < BUFF_SIZE - offset)
 	{
 		ft_memcpy(res + offset, src, size * sizeof(char));

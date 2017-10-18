@@ -6,7 +6,7 @@
 /*   By: chle-van <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/12 17:18:32 by chle-van          #+#    #+#             */
-/*   Updated: 2017/10/17 01:33:47 by chle-van         ###   ########.fr       */
+/*   Updated: 2017/10/18 03:53:01 by chle-van         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ typedef	struct				s_pconv
 }							t_pconv;
 
 int							ft_printf(const char *s, ...);
+size_t						ft_set_number_prec(t_type type);
 size_t						ft_conv_signed(t_type type, va_list list);
 size_t						ft_conv_unsigned(t_type type, va_list list);
 size_t						ft_padding_number(char *str, t_type type);
@@ -83,8 +84,8 @@ void						ft_sendbuffw(char c, int size);
 size_t						ft_getarg(char **src, va_list args);
 size_t						ft_converter(t_type type, va_list list);
 size_t						ft_convsp(t_type type, va_list list);
-size_t						ft_set_number_field(t_type type, char *s, int n);
-size_t						ft_doublep(t_type type);
+size_t						ft_set_number_field(t_type type, int n);
+size_t						ft_doublep(t_type type, va_list list);
 char						*ft_plltoa(t_type type, int base);
 char						*ft_pltoa(t_type type, int base);
 char						*ft_pitoa(t_type type, int base);

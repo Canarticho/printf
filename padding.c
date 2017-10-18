@@ -6,7 +6,7 @@
 /*   By: chle-van <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/07 13:45:42 by chle-van          #+#    #+#             */
-/*   Updated: 2017/10/17 01:42:17 by chle-van         ###   ########.fr       */
+/*   Updated: 2017/10/18 02:57:11 by chle-van         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static size_t	ft_paddingcharsnp(t_type type, char *str, char state)
 {
-	size_t padsize;
+	int padsize;
 
 	if (type.min_range > type.size)
 	{
@@ -37,7 +37,7 @@ static size_t	ft_paddingcharsnp(t_type type, char *str, char state)
 
 size_t			ft_padding_chars(t_type type, char *str, char state)
 {
-	size_t padsize;
+	int padsize;
 
 	if (!str)
 	{
@@ -46,9 +46,8 @@ size_t			ft_padding_chars(t_type type, char *str, char state)
 	}
 	if (!type.pp || type.prec > type.size)
 		return (ft_paddingcharsnp(type, str, state));
-	if (type.min_range > type.prec)
+	if ((padsize = type.min_range - type.prec) > 0)
 	{
-		padsize = type.min_range - type.prec;
 		if (!(type.padflags & 4))
 		{
 			ft_sendbuff(' ', padsize);
@@ -67,11 +66,10 @@ size_t			ft_padding_chars(t_type type, char *str, char state)
 
 static size_t	ft_paddingwcharsnp(t_type type, wchar_t *str, char state)
 {
-	size_t padsize;
+	int padsize;
 
-	if (type.min_range > type.size)
+	if ((padsize = type.min_range - type.size) > 0)
 	{
-		padsize = type.min_range - type.size;
 		if (!(type.padflags & 4))
 		{
 			ft_sendbuffw(' ', padsize);
@@ -90,7 +88,7 @@ static size_t	ft_paddingwcharsnp(t_type type, wchar_t *str, char state)
 
 size_t			ft_padding_wchars(t_type type, wchar_t *str, char state)
 {
-	size_t padsize;
+	int padsize;
 
 	if (!type.pp || type.prec > type.size)
 		return (ft_paddingwcharsnp(type, str, state));

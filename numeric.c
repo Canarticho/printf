@@ -6,11 +6,20 @@
 /*   By: chle-van <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/19 17:41:00 by chle-van          #+#    #+#             */
-/*   Updated: 2017/10/17 01:37:41 by chle-van         ###   ########.fr       */
+/*   Updated: 2017/10/18 01:50:26 by chle-van         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "printf.h"
+
+t_pvar g_var[5] =
+{
+	{1, ft_pctoa},
+	{2, ft_pstoa},
+	{3, ft_pitoa},
+	{4, ft_pltoa},
+	{5, ft_plltoa}
+};
 
 static int			ft_prep_unsign(char format)
 {
@@ -28,20 +37,12 @@ static int			ft_prep_unsign(char format)
 
 char				*ft_prep_var(t_type type)
 {
-	static t_pvar var[5] = 
-	{
-		{1, ft_pctoa},
-		{2, ft_pstoa},
-		{3, ft_pitoa},
-		{4, ft_pltoa},
-		{5, ft_plltoa}
-	};
-	int i;
+	int		i;
 
 	i = -1;
 	while (++i < 5)
-		if (type.mod == var[i].mod)
-			return (var[i].ft_var(type, ft_prep_unsign(type.format)));
+		if (type.mod == g_var[i].mod)
+			return (g_var[i].ft_var(type, ft_prep_unsign(type.format)));
 	return (NULL);
 }
 
@@ -69,7 +70,6 @@ size_t				ft_conv_signed(t_type type, va_list list)
 		type.size = 0;
 	return (ft_padding_number(res, type) + type.size);
 }
-
 
 size_t				ft_conv_unsigned(t_type type, va_list list)
 {
@@ -120,5 +120,5 @@ size_t				ft_convsp(t_type type, va_list list)
 		return (ft_conv_signed(type, list));
 	if (ft_strchr("ouxX", type.format))
 		return (ft_conv_unsigned(type, list));
-	return(0);
+	return (0);
 }

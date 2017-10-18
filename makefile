@@ -6,7 +6,7 @@
 #    By: chle-van <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/27 20:46:24 by chle-van          #+#    #+#              #
-#    Updated: 2017/10/16 22:41:49 by chle-van         ###   ########.fr        #
+#    Updated: 2017/10/18 06:43:20 by chle-van         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ SRC=chars.c\
 	numeric.c\
 	padding.c\
 	padding_numbers.c\
+	padding_numbers2.c\
 	var.c
 
 OBJ=$(SRC:.c=.o)
@@ -36,7 +37,6 @@ $(LIB_FILE):
 
 $(NAME):$(LIB_FILE) $(PRLIB)
 	libtool -static -o $@ $^
-	rm -rf $(PRLIB)
 
 $(PRLIB):$(OBJ)
 	ar rc $@ $^
@@ -48,7 +48,7 @@ re:fclean all
 
 clean:
 	rm -rf $(OBJ)
-	rm -rf $(LIB_FILE) $(LIB)
+	rm -rf $(LIB_FILE) $(LIB) $(PRLIB)
 	cd $(LIB_PATH) && $(MAKE) fclean
 fclean:clean
 	rm -rf $(NAME)

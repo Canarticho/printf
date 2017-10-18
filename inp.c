@@ -6,13 +6,13 @@
 /*   By: chle-van <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/08 07:08:26 by chle-van          #+#    #+#             */
-/*   Updated: 2017/10/17 04:52:26 by chle-van         ###   ########.fr       */
+/*   Updated: 2017/10/18 05:57:50 by chle-van         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "printf.h"
 
-static t_pconv	conv[9] =
+t_pconv	g_conv[10] =
 {
 	{'d', ft_conv_signed},
 	{'i', ft_conv_signed},
@@ -22,7 +22,8 @@ static t_pconv	conv[9] =
 	{'X', ft_conv_unsigned},
 	{'s', ft_conv_char},
 	{'c', ft_conv_char},
-	{'p', ft_conv_ptr}
+	{'p', ft_conv_ptr},
+	{'%', ft_doublep}
 };
 
 static void	ft_padflags(char **s, t_type *type)
@@ -94,6 +95,7 @@ static void	ft_mod(char **s, t_type *type)
 		(*s)++;
 	}
 }
+
 size_t		ft_getarg(char **s, va_list args)
 {
 	t_type	type;
@@ -102,24 +104,21 @@ size_t		ft_getarg(char **s, va_list args)
 	totalsize = 0;
 	type.format = 0;
 	(*s)++;
+	if (!**s)
+		return (0);
 	ft_padflags(s, &type);
 	ft_prec(s, &type);
 	ft_mod(s, &type);
 	if (**s && ft_strchr("DOUXdiouxSsCcp%", **s))
 	{
 		type.format = **s;
-		if (**s == '%')
-		{
-			(*s)++;
-			return (ft_doublep(type));
-		}
 		if (**s && ft_strchr("DOUSC", **s))
 		{
 			type.mod = 4;
 			type.format += 32;
 		}
 		if (type.format)
-		totalsize += ft_converter(type, args);
+			totalsize += ft_converter(type, args);
 		(*s)++;
 	}
 	return (totalsize);
@@ -134,8 +133,8 @@ size_t		ft_converter(t_type type, va_list list)
 	if (type.mod > 5)
 		return (ft_convsp(type, list));
 	i = -1;
-	while (++i < 11)
-		if (type.format == conv[i].letter)
-			return (conv[i].ft_conv(type, list));
+	while (++i < 12)
+		if (type.format == g_conv[i].letter)
+			return (g_conv[i].ft_conv(type, list));
 	return (0);
 }
