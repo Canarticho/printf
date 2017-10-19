@@ -6,7 +6,7 @@
 /*   By: chle-van <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/08 07:08:26 by chle-van          #+#    #+#             */
-/*   Updated: 2017/10/18 23:51:00 by chle-van         ###   ########.fr       */
+/*   Updated: 2017/10/19 06:53:31 by chle-van         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ static void	ft_prec(char **s, t_type *type)
 
 static void	ft_mod(char **s, t_type *type)
 {
+	type->format = 0;
+	type->size = 0;
 	type->mod = 3;
 	while (ft_strchr("hlzj", **s) && type->mod < 6 && type->mod > 0)
 	{
@@ -116,10 +118,11 @@ size_t		ft_getarg(char **s, va_list args)
 			type.mod = 4;
 			type.format += 32;
 		}
-		if (type.format)
-			totalsize += ft_converter(type, args);
+		totalsize += ft_converter(type, args);
 		(*s)++;
 	}
+	else
+		return (ft_set_number_field(type, 1));
 	return (totalsize);
 }
 

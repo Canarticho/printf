@@ -6,7 +6,7 @@
 /*   By: chle-van <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/18 01:56:05 by chle-van          #+#    #+#             */
-/*   Updated: 2017/10/19 00:50:40 by chle-van         ###   ########.fr       */
+/*   Updated: 2017/10/19 10:03:27 by chle-van         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,11 @@ size_t	ft_set_number_prec(t_type type)
 	{
 		ft_sendbuff('0', padsize + 1);
 		size += padsize + 1;
+	}
+	else if (padsize > 0 && type.padflags & 1 && type.format == 'o')
+	{
+		ft_sendbuff('0', padsize - 1);
+		size += padsize - 1;
 	}
 	else if (padsize > 0)
 	{

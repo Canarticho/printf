@@ -6,7 +6,7 @@
 /*   By: chle-van <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/07 13:45:42 by chle-van          #+#    #+#             */
-/*   Updated: 2017/10/19 01:34:59 by chle-van         ###   ########.fr       */
+/*   Updated: 2017/10/19 10:02:35 by chle-van         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ size_t			ft_set_min_range_chars(t_type type, size_t size)
 	return (size);
 }
 
-static size_t	ft_paddingcharsnp(t_type type, char *str, char state)
+size_t			ft_paddingcharsnp(t_type type, char *str, char state)
 {
 	int padsize;
 
@@ -48,7 +48,7 @@ size_t			ft_padding_chars(t_type type, char *str, char state)
 {
 	int padsize;
 
-	if (!str)
+	if (!str && !type.min_range)
 	{
 		ft_addbuff("(null)", 6, 0);
 		return (6);
@@ -99,11 +99,15 @@ size_t			ft_padding_wchars(t_type type, wchar_t *str, char state)
 {
 	int padsize;
 
-	if (!type.pp || type.prec > type.size)
-		return (ft_paddingwcharsnp(type, str, state));
-	if (type.min_range > type.prec)
+	if (!str && !type.min_range)
 	{
-		padsize = type.min_range - type.prec;
+		ft_addbuff("(null)", 6, 0);
+		return (6);
+	}
+	if (!type.pp || type.prec > type.size || type.format == 'c')
+		return (ft_paddingwcharsnp(type, str, state));
+	if ((padsize = type.min_range - type.prec > 0))
+	{
 		if (!(type.padflags & 4))
 		{
 			ft_set_number_field(type, type.prec - type.size);

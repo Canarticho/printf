@@ -6,7 +6,7 @@
 /*   By: chle-van <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/12 17:18:32 by chle-van          #+#    #+#             */
-/*   Updated: 2017/10/19 02:45:56 by chle-van         ###   ########.fr       */
+/*   Updated: 2017/10/19 06:50:32 by chle-van         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ size_t						ft_conv_char(t_type type, va_list arg);
 void						ft_addbuff(char *src, size_t size, char flag);
 size_t						ft_padding_wchars(t_type type, wchar_t *ws, char s);
 size_t						ft_padptr(char *str, t_type type);
+size_t						ft_paddingcharsnp(t_type type, char *str, char s);
 size_t						ft_padding_chars(t_type type, char *str, char s);
 void						ft_sendbuff(char c, int size);
 void						ft_addbuffw(wchar_t *src, size_t size, char flag);

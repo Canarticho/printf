@@ -6,7 +6,7 @@
 /*   By: chle-van <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/19 17:40:20 by chle-van          #+#    #+#             */
-/*   Updated: 2017/10/19 01:12:13 by chle-van         ###   ########.fr       */
+/*   Updated: 2017/10/19 10:06:40 by chle-van         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,22 @@ static int		ft_pad_diez(char type, char *str, int *neg)
 static size_t	ft_padding_signbis(char *str, t_type type, size_t size, int neg)
 {
 	if ((type.padflags & 8 && str[0] != '-' && !(type.padflags & 2)) ||
-			(str[0] == '-' && neg == 0 && type.pp))
+			(str[0] == '-' && neg == 0 && type.pp &&
+			type.min_range >= type.prec + 1 && type.prec >= type.size))
 		neg++;
 	if (!(type.padflags & 4))
 		size += ft_set_number_field(type, neg);
+	if (type.min_range > type.prec + 1 && !(type.padflags & 2) && type.pp &&
+			str[0] == '-')
+		ft_addbuff(str, 1, 0);
 	if ((type.padflags & 8) && str[0] != '-' && !(type.padflags & 2))
 	{
 		ft_sendbuff('+', 1);
 		size++;
 	}
 	size += ft_set_number_prec(type);
-	if (str[0] == '-' && (type.padflags & 2 || type.prec >= type.size))
+	if (str[0] == '-' && (type.padflags & 2 || type.prec >= type.size ||
+				(type.min_range > type.prec + 1 && type.pp)))
 		ft_addbuff(str + 1, type.size - 1, 0);
 	else
 		ft_addbuff(str, type.size, 0);
@@ -75,7 +80,8 @@ static size_t	ft_padding_signed(char *str, t_type type)
 		size++;
 		neg++;
 	}
-	if (str[0] == '-' && (type.padflags & 2 || type.prec >= type.size))
+	if (str[0] == '-' && (type.padflags & 2 || (type.prec >= type.size &&
+					type.min_range <= type.prec + 1)))
 		ft_sendbuff(*str, 1);
 	return (ft_padding_signbis(str, type, size, neg));
 }
@@ -97,6 +103,8 @@ static size_t	ft_padding_unsigned(char *str, t_type type)
 	if (!(type.padflags & 4) && (type.padflags & 2))
 		size += ft_set_number_field(type, neg);
 	size += ft_set_number_prec(type);
+	if (type.format == 'o' && type.padflags & 1 && !type.unsign.ll && !type.pp)
+		return (0);
 	ft_addbuff(str, type.size, 0);
 	if ((type.padflags & 4))
 		size += ft_set_number_field(type, neg);

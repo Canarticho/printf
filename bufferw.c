@@ -6,7 +6,7 @@
 /*   By: chle-van <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 16:16:32 by chle-van          #+#    #+#             */
-/*   Updated: 2017/10/19 03:52:03 by chle-van         ###   ########.fr       */
+/*   Updated: 2017/10/19 10:34:19 by chle-van         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void			ft_addbuffw(wchar_t *src, size_t size, char flag)
 		offset = 0;
 		return ;
 	}
-	//	ft_addbuff(NULL, 0, SWAP);
+	ft_addbuff(NULL, 0, SWAP);
 	if (size < BUFF_SIZE - offset)
 	{
 		ft_memcpy(res + offset, src, size * sizeof(wchar_t));
@@ -95,7 +95,7 @@ void			ft_addbuffw(wchar_t *src, size_t size, char flag)
 		if (size)
 			ft_addbuffw(src + BUFF_SIZE, size, flag);
 	}
-	if (flag & FLUSH)
+	if (flag & FLUSH || flag & SWAP)
 	{
 		ft_clearw(offset, res);
 		offset = 0;

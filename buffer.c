@@ -6,7 +6,7 @@
 /*   By: chle-van <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/17 00:45:25 by chle-van          #+#    #+#             */
-/*   Updated: 2017/10/19 03:44:59 by chle-van         ###   ########.fr       */
+/*   Updated: 2017/10/19 10:34:02 by chle-van         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void		ft_addbuff(char *src, size_t size, char flag)
 		if (size)
 			ft_addbuff(src + BUFF_SIZE, size, flag);
 	}
-	if (flag & FLUSH)
+	if (flag & FLUSH || flag & SWAP)
 	{
 		ft_clear(offset, res);
 		offset = 0;
