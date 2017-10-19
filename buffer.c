@@ -6,7 +6,7 @@
 /*   By: chle-van <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/17 00:45:25 by chle-van          #+#    #+#             */
-/*   Updated: 2017/10/18 01:46:10 by chle-van         ###   ########.fr       */
+/*   Updated: 2017/10/19 03:44:59 by chle-van         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,18 @@ static void	ft_clear(size_t size, char *res)
 	ft_bzero(res, (size_t)BUFF_SIZE * sizeof(char));
 }
 
-void		ft_addbuff(void *src, size_t size, char flag)
+void		ft_addbuff(char *src, size_t size, char flag)
 {
 	static char		res[BUFF_SIZE];
 	static size_t	offset;
 
+	if (flag == SWAP)
+	{
+		ft_clear(offset, res);
+		offset = 0;
+		return ;
+	}
+	ft_addbuffw(NULL, 0, SWAP);
 	if (size < BUFF_SIZE - offset)
 	{
 		ft_memcpy(res + offset, src, size * sizeof(char));

@@ -6,7 +6,7 @@
 /*   By: chle-van <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/19 17:40:20 by chle-van          #+#    #+#             */
-/*   Updated: 2017/10/18 07:26:37 by chle-van         ###   ########.fr       */
+/*   Updated: 2017/10/19 01:12:13 by chle-van         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int		ft_pad_diez(char type, char *str, int *neg)
 		ft_addbuff("0X", 2, 0);
 		return (*neg = 2);
 	}
-	if ((ft_strchr("x", type) && *str != '0') || type == 'p')
+	if ((type == 'x' && *str != '0') || type == 'p')
 	{
 		ft_addbuff("0x", 2, 0);
 		return (*neg = 2);
@@ -69,7 +69,7 @@ static size_t	ft_padding_signed(char *str, t_type type)
 		size++;
 		neg++;
 	}
-	if ((type.padflags & 16) && str[0] != '-' && !(type.padflags & 2))
+	if ((type.padflags & 16) && str[0] != '-')
 	{
 		ft_sendbuff(' ', 1);
 		size++;
@@ -87,20 +87,17 @@ static size_t	ft_padding_unsigned(char *str, t_type type)
 
 	neg = 0;
 	size = 0;
-	if (type.format == 'p')
-		ft_pad_diez(type.format, str, &neg);
 	if ((!(type.sign.ll || type.unsign.ll) && (type.pp && !type.prec)) &&
 			!(type.padflags & 1 && type.format == 'o') && type.format != 'p')
 		return (ft_set_number_field(type, 0));
 	if (!(type.padflags & 4) && !(type.padflags & 2))
 		size += ft_set_number_field(type, neg);
-	if (type.padflags & 1 && ft_strchr("oxX", type.format))
+	if (type.padflags & 1 && ft_strchr("oxXp", type.format))
 		size += ft_pad_diez(type.format, str, &neg);
 	if (!(type.padflags & 4) && (type.padflags & 2))
 		size += ft_set_number_field(type, neg);
 	size += ft_set_number_prec(type);
-//	if (type.format != 'p' && type.pp && !type.prec)
-		ft_addbuff(str, type.size, 0);
+	ft_addbuff(str, type.size, 0);
 	if ((type.padflags & 4))
 		size += ft_set_number_field(type, neg);
 	return (size);

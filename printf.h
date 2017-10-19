@@ -6,7 +6,7 @@
 /*   By: chle-van <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/12 17:18:32 by chle-van          #+#    #+#             */
-/*   Updated: 2017/10/18 03:53:01 by chle-van         ###   ########.fr       */
+/*   Updated: 2017/10/19 02:45:56 by chle-van         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # define BUFF_SIZE 2000
 # define FLUSH 1
 # define FREE 2
+# define SWAP 3
 
 typedef	struct				s_type
 {
@@ -75,13 +76,15 @@ size_t						ft_conv_unsigned(t_type type, va_list list);
 size_t						ft_padding_number(char *str, t_type type);
 size_t						ft_conv_ptr(t_type type, va_list arg);
 size_t						ft_conv_char(t_type type, va_list arg);
-void						ft_addbuff(void *src, size_t size, char flag);
+void						ft_addbuff(char *src, size_t size, char flag);
 size_t						ft_padding_wchars(t_type type, wchar_t *ws, char s);
+size_t						ft_padptr(char *str, t_type type);
 size_t						ft_padding_chars(t_type type, char *str, char s);
 void						ft_sendbuff(char c, int size);
-void						ft_addbuffw(void *src, size_t size, char flag);
-void						ft_sendbuffw(char c, int size);
+void						ft_addbuffw(wchar_t *src, size_t size, char flag);
+void						ft_sendbuffw(wchar_t c, int size);
 size_t						ft_getarg(char **src, va_list args);
+size_t						ft_set_min_range_chars(t_type type, size_t size);
 size_t						ft_converter(t_type type, va_list list);
 size_t						ft_convsp(t_type type, va_list list);
 size_t						ft_set_number_field(t_type type, int n);

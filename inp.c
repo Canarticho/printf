@@ -6,7 +6,7 @@
 /*   By: chle-van <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/08 07:08:26 by chle-van          #+#    #+#             */
-/*   Updated: 2017/10/18 05:57:50 by chle-van         ###   ########.fr       */
+/*   Updated: 2017/10/18 23:51:00 by chle-van         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,6 @@ size_t		ft_getarg(char **s, va_list args)
 	size_t	totalsize;
 
 	totalsize = 0;
-	type.format = 0;
 	(*s)++;
 	if (!**s)
 		return (0);
