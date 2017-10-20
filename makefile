@@ -6,7 +6,7 @@
 #    By: chle-van <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/27 20:46:24 by chle-van          #+#    #+#              #
-#    Updated: 2017/10/18 06:43:20 by chle-van         ###   ########.fr        #
+#    Updated: 2017/10/20 09:01:01 by chle-van         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ SRC=chars.c\
 	padding.c\
 	padding_numbers.c\
 	padding_numbers2.c\
+	wchar.c\
 	var.c
 
 OBJ=$(SRC:.c=.o)

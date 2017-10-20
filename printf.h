@@ -6,7 +6,7 @@
 /*   By: chle-van <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/12 17:18:32 by chle-van          #+#    #+#             */
-/*   Updated: 2017/10/19 06:50:32 by chle-van         ###   ########.fr       */
+/*   Updated: 2017/10/20 14:12:03 by chle-van         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <wchar.h>
+# include <locale.h>
 # include "libft.h"
 # define BUFF_SIZE 2000
 # define FLUSH 1
@@ -46,6 +47,7 @@ typedef	struct				s_type
 		uintmax_t			um;
 	}						unsign;
 
+	size_t					osize;
 	size_t					size;
 	size_t					min_range;
 	size_t					prec;
@@ -77,10 +79,10 @@ size_t						ft_padding_number(char *str, t_type type);
 size_t						ft_conv_ptr(t_type type, va_list arg);
 size_t						ft_conv_char(t_type type, va_list arg);
 void						ft_addbuff(char *src, size_t size, char flag);
-size_t						ft_padding_wchars(t_type type, wchar_t *ws, char s);
+size_t						ft_padding_wchars(t_type type, wchar_t *ws);
 size_t						ft_padptr(char *str, t_type type);
-size_t						ft_paddingcharsnp(t_type type, char *str, char s);
-size_t						ft_padding_chars(t_type type, char *str, char s);
+size_t						ft_paddingcharsnp(t_type type, char *str);
+size_t						ft_padding_chars(t_type type, char *str);
 void						ft_sendbuff(char c, int size);
 void						ft_addbuffw(wchar_t *src, size_t size, char flag);
 void						ft_sendbuffw(wchar_t c, int size);
@@ -95,4 +97,6 @@ char						*ft_pltoa(t_type type, int base);
 char						*ft_pitoa(t_type type, int base);
 char						*ft_pstoa(t_type type, int base);
 char						*ft_pctoa(t_type type, int base);
+size_t						ft_co_wchar(wchar_t *c, size_t s, t_type t);
 #endif
+

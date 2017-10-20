@@ -6,7 +6,7 @@
 /*   By: chle-van <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/07 13:45:42 by chle-van          #+#    #+#             */
-/*   Updated: 2017/10/19 10:02:35 by chle-van         ###   ########.fr       */
+/*   Updated: 2017/10/20 14:48:50 by chle-van         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ size_t			ft_set_min_range_chars(t_type type, size_t size)
 	return (size);
 }
 
-size_t			ft_paddingcharsnp(t_type type, char *str, char state)
+size_t			ft_paddingcharsnp(t_type type, char *str)
 {
 	int padsize;
 
@@ -31,20 +31,20 @@ size_t			ft_paddingcharsnp(t_type type, char *str, char state)
 		if (!(type.padflags & 4))
 		{
 			ft_set_min_range_chars(type, padsize);
-			ft_addbuff(str, type.size, state);
+			ft_addbuff(str, type.size, 0);
 		}
 		else
 		{
-			ft_addbuff(str, type.size, state);
+			ft_addbuff(str, type.size, 0);
 			ft_set_min_range_chars(type, padsize);
 		}
 		return (type.min_range);
 	}
-	ft_addbuff(str, type.size, state);
+	ft_addbuff(str, type.size, 0);
 	return (type.size);
 }
 
-size_t			ft_padding_chars(t_type type, char *str, char state)
+size_t			ft_padding_chars(t_type type, char *str)
 {
 	int padsize;
 
@@ -54,50 +54,50 @@ size_t			ft_padding_chars(t_type type, char *str, char state)
 		return (6);
 	}
 	if (type.format == 'c' || !type.pp || type.prec > type.size)
-		return (ft_paddingcharsnp(type, str, state));
+		return (ft_paddingcharsnp(type, str));
 	if ((padsize = type.min_range - type.prec) > 0)
 	{
 		if (!(type.padflags & 4))
 		{
 			ft_set_min_range_chars(type, padsize);
-			ft_addbuff(str, type.prec, state);
+			ft_addbuff(str, type.prec, 0);
 		}
 		else
 		{
-			ft_addbuff(str, type.prec, state);
+			ft_addbuff(str, type.prec, 0);
 			ft_set_min_range_chars(type, padsize);
 		}
 		return (type.min_range);
 	}
-	ft_addbuff(str, type.prec, state);
+	ft_addbuff(str, type.prec, 0);
 	return (type.prec);
 }
 
-static size_t	ft_paddingwcharsnp(t_type type, wchar_t *str, char state)
+static size_t	ft_paddingwcharsnp(t_type type, wchar_t *str)
 {
-	int padsize;
+	int		padsize;
 
 	if ((padsize = type.min_range - type.size) > 0)
 	{
 		if (!(type.padflags & 4))
 		{
 			ft_set_min_range_chars(type, padsize);
-			ft_addbuffw(str, type.size, state);
+			ft_co_wchar(str, -1, type);
 		}
 		else
 		{
-			ft_addbuffw(str, type.size, state);
+			ft_co_wchar(str, -1, type);
 			ft_set_min_range_chars(type, padsize);
 		}
 		return (type.min_range);
 	}
-	ft_addbuffw(str, type.size, state);
+			ft_co_wchar(str, -1, type);
 	return (type.size);
 }
 
-size_t			ft_padding_wchars(t_type type, wchar_t *str, char state)
+size_t			ft_padding_wchars(t_type type, wchar_t *str)
 {
-	int padsize;
+	int		padsize;
 
 	if (!str && !type.min_range)
 	{
@@ -105,21 +105,21 @@ size_t			ft_padding_wchars(t_type type, wchar_t *str, char state)
 		return (6);
 	}
 	if (!type.pp || type.prec > type.size || type.format == 'c')
-		return (ft_paddingwcharsnp(type, str, state));
+		return (ft_paddingwcharsnp(type, str));
 	if ((padsize = type.min_range - type.prec > 0))
 	{
 		if (!(type.padflags & 4))
 		{
-			ft_set_number_field(type, type.prec - type.size);
-			ft_addbuffw(str, type.prec, state);
+			ft_set_number_field(type, 0 - type.size);
+			ft_co_wchar(str, type.prec, type);
 		}
 		else
 		{
-			ft_addbuffw(str, type.prec, state);
+			ft_co_wchar(str, -1, type);
 			ft_set_number_field(type, type.prec - type.size);
 		}
 		return (type.min_range);
 	}
-	ft_addbuffw(str, type.prec, state);
+			ft_co_wchar(str, type.prec, type);
 	return (type.prec);
 }

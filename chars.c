@@ -6,7 +6,7 @@
 /*   By: chle-van <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 18:25:14 by chle-van          #+#    #+#             */
-/*   Updated: 2017/10/19 10:17:37 by chle-van         ###   ########.fr       */
+/*   Updated: 2017/10/20 14:12:35 by chle-van         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,17 @@ size_t			ft_wchar(t_type type, va_list args)
 	if (type.format == 'c')
 	{
 		wc = (wchar_t)va_arg(args, wchar_t);
-		type.size = 1;
-		return (ft_padding_wchars(type, &wc, 0));
+		type.size = ft_co_wchar(&wc, type.osize = 1, type);
+		return (ft_padding_wchars(type, &wc));
 	}
 	else
 	{
-		tmp = (wchar_t *)va_arg(args, wchar_t *);
+		tmp = va_arg(args, wchar_t *);
 		if (!tmp)
 			type.size = 0;
 		else
-			type.size = ft_wcslen(tmp);
-		return (ft_padding_wchars(type, tmp, 0));
+			type.size = ft_co_wchar(tmp, type.osize = ft_wcslen(tmp), type);
+		return (ft_padding_wchars(type, tmp));
 	}
 	return (0);
 }
@@ -49,13 +49,13 @@ size_t			ft_conv_char(t_type type, va_list args)
 			type.size = 0;
 		else
 			type.size = ft_strlen(tmp);
-		return (ft_padding_chars(type, tmp, 0));
+		return (ft_padding_chars(type, tmp));
 	}
 	else if (type.format == 'c')
 	{
 		c = (char)va_arg(args, int);
 		type.size = 1;
-		return (ft_padding_chars(type, &c, 0));
+		return (ft_padding_chars(type, &c));
 	}
 	return (0);
 }
