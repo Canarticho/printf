@@ -6,7 +6,7 @@
 /*   By: chle-van <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 18:25:14 by chle-van          #+#    #+#             */
-/*   Updated: 2017/10/20 14:12:35 by chle-van         ###   ########.fr       */
+/*   Updated: 2017/10/23 09:45:28 by chle-van         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ size_t			ft_wchar(t_type type, va_list args)
 	if (type.format == 'c')
 	{
 		wc = (wchar_t)va_arg(args, wchar_t);
-		type.size = ft_co_wchar(&wc, type.osize = 1, type);
+		type.osize = 1;
+		type.size = ft_co_wchar(&wc, type.osize, type);
 		return (ft_padding_wchars(type, &wc));
 	}
 	else
@@ -29,7 +30,10 @@ size_t			ft_wchar(t_type type, va_list args)
 		if (!tmp)
 			type.size = 0;
 		else
-			type.size = ft_co_wchar(tmp, type.osize = ft_wcslen(tmp), type);
+		{
+			type.osize = ft_wcslen(tmp);
+			type.size = ft_co_wchar(tmp, type.osize, type);
+		}
 		return (ft_padding_wchars(type, tmp));
 	}
 	return (0);

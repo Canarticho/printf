@@ -6,7 +6,7 @@
 /*   By: chle-van <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/07 13:45:42 by chle-van          #+#    #+#             */
-/*   Updated: 2017/10/20 14:48:50 by chle-van         ###   ########.fr       */
+/*   Updated: 2017/10/23 10:06:37 by chle-van         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,11 @@ static size_t	ft_paddingwcharsnp(t_type type, wchar_t *str)
 {
 	int		padsize;
 
+	if (!*str && type.pp && !type.prec)
+	{
+		ft_addbuff((char *)str, 1, 0);
+		return (1);
+	}
 	if ((padsize = type.min_range - type.size) > 0)
 	{
 		if (!(type.padflags & 4))
@@ -91,7 +96,7 @@ static size_t	ft_paddingwcharsnp(t_type type, wchar_t *str)
 		}
 		return (type.min_range);
 	}
-			ft_co_wchar(str, -1, type);
+	ft_co_wchar(str, -1, type);
 	return (type.size);
 }
 
@@ -104,22 +109,21 @@ size_t			ft_padding_wchars(t_type type, wchar_t *str)
 		ft_addbuff("(null)", 6, 0);
 		return (6);
 	}
-	if (!type.pp || type.prec > type.size || type.format == 'c')
+	if (!type.pp || type.min_range > type.size || type.format == 'c')
 		return (ft_paddingwcharsnp(type, str));
-	if ((padsize = type.min_range - type.prec > 0))
+	if ((padsize = type.min_range - type.size) > 0)
 	{
 		if (!(type.padflags & 4))
 		{
-			ft_set_number_field(type, 0 - type.size);
-			ft_co_wchar(str, type.prec, type);
+			ft_set_number_field(type, 0);
+			ft_co_wchar(str, -1, type);
 		}
 		else
 		{
 			ft_co_wchar(str, -1, type);
-			ft_set_number_field(type, type.prec - type.size);
+			ft_set_number_field(type, 0);
 		}
 		return (type.min_range);
 	}
-			ft_co_wchar(str, type.prec, type);
-	return (type.prec);
+	return (ft_co_wchar(str, -1, type));
 }

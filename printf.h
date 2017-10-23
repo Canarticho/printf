@@ -6,7 +6,7 @@
 /*   By: chle-van <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/12 17:18:32 by chle-van          #+#    #+#             */
-/*   Updated: 2017/10/20 14:12:03 by chle-van         ###   ########.fr       */
+/*   Updated: 2017/10/23 11:19:23 by chle-van         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,12 @@ typedef	struct				s_type
 		uintmax_t			um;
 	}						unsign;
 
+	char					*strres;
 	size_t					osize;
 	size_t					size;
 	size_t					min_range;
 	size_t					prec;
+	size_t					strsize;
 	char					pp;
 	int						mod;
 	char					padflags;
@@ -73,6 +75,7 @@ typedef	struct				s_pconv
 
 int							ft_printf(const char *s, ...);
 size_t						ft_set_number_prec(t_type type);
+size_t						ft_noarg(char **str, t_type type);
 size_t						ft_conv_signed(t_type type, va_list list);
 size_t						ft_conv_unsigned(t_type type, va_list list);
 size_t						ft_padding_number(char *str, t_type type);
@@ -99,4 +102,3 @@ char						*ft_pstoa(t_type type, int base);
 char						*ft_pctoa(t_type type, int base);
 size_t						ft_co_wchar(wchar_t *c, size_t s, t_type t);
 #endif
-

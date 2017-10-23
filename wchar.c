@@ -6,7 +6,7 @@
 /*   By: chle-van <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/20 08:33:40 by chle-van          #+#    #+#             */
-/*   Updated: 2017/10/20 15:35:21 by chle-van         ###   ########.fr       */
+/*   Updated: 2017/10/23 10:47:26 by chle-van         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,32 +77,28 @@ static size_t		ft_2bchar(wchar_t c, char *res)
 
 size_t				ft_co_wchar(wchar_t *c, size_t size, t_type type)
 {
-	size_t	plusize;
-	size_t i;
+	size_t	i;
 	char	*res;
-	size_t totsize;
 
 	i = -1;
-	totsize = 0;
+	type.size = 0;
 	if (!(res = ft_strnew(BUFF_SIZE)))
 		return (0);
-	while (++i < type.osize)
+	while (++i < type.osize && !(type.strsize = 0))
 	{
-		plusize = 0;
-		if (c[i] < 0x200000)
-			plusize = ft_2bchar(c[i], res + totsize);
-		else
-			plusize = ft_4bchar(c[i], res + totsize);
-		if (totsize > type.prec && type.pp)
-		{
-			ft_addbuff(res, totsize - plusize, FREE);
-			return (0);
-		}
-		totsize += plusize;
+		if (c[i] < 0x200000 && i < type.osize)
+			type.strsize = ft_2bchar(c[i], res + type.size);
+		else if (i < type.osize)
+			type.strsize = ft_4bchar(c[i], res + type.size);
+		type.size += type.strsize;
+		if (type.pp && type.size > type.prec)
+			break ;
 	}
+	if (type.size > type.prec && type.pp)
+		type.size -= type.strsize;
 	if (size == (size_t)-1)
-		ft_addbuff(res, totsize, FREE);
-	else 
+		ft_addbuff(res, type.size, FREE);
+	else
 		free(res);
-	return (totsize);
+	return (type.size);
 }

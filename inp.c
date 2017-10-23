@@ -6,7 +6,7 @@
 /*   By: chle-van <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/08 07:08:26 by chle-van          #+#    #+#             */
-/*   Updated: 2017/10/20 16:11:42 by chle-van         ###   ########.fr       */
+/*   Updated: 2017/10/23 09:52:27 by chle-van         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ size_t		ft_getarg(char **s, va_list args)
 		(*s)++;
 	}
 	else
-		return (ft_set_number_field(type, 1));
+		return (ft_noarg(s, type));
 	return (totalsize);
 }
 
