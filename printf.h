@@ -6,7 +6,7 @@
 /*   By: chle-van <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/12 17:18:32 by chle-van          #+#    #+#             */
-/*   Updated: 2017/10/23 11:19:23 by chle-van         ###   ########.fr       */
+/*   Updated: 2017/10/26 23:15:00 by chle-van         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@
 # include <wchar.h>
 # include <locale.h>
 # include "libft.h"
+#ifndef BUFF_SIZE
 # define BUFF_SIZE 2000
+#endif
 # define FLUSH 1
 # define FREE 2
 # define SWAP 3
